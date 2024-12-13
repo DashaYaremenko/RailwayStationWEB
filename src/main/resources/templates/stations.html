@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stations Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center">Управління станціями</h1>
+
+    <!-- Кнопка для відкриття модального вікна додавання -->
+    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addStationModal">Додати станцію</button>
+
+    <!-- Таблиця з потягами -->
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Номер станції</th>
+            <th>Назва станції</th>
+            <th>Дії</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="station : ${stations}">
+            <td th:text="${station.id}"></td>
+            <td th:text="${station.nameStation}"></td>
+            <td>
+                <!-- Кнопка редагування -->
+                <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editStationModal"
+                        th:attr="data-id=${station.id}, data-name=${station.nameStation}">
+                    Редагувати
+                </button>
+                <!-- Кнопка видалення -->
+                <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteStationModal"
+                        th:attr="data-id=${station.id}">
+                    Видалити
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Модальне вікно додавання -->
+<div class="modal fade" id="addStationModal" tabindex="-1" aria-labelledby="addStationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addStationModalLabel">Додати потяг</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/addStations" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="nameStation" class="form-label">Назва станції</label>
+                        <input type="text" class="form-control" id="nameStation" name="NameStation" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Скасувати</button>
+                    <button type="submit" class="btn btn-primary">Додати</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Модальне вікно редагування -->
+<div class="modal fade" id="editStationModal" tabindex="-1" aria-labelledby="editStationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editStationModalLabel">Редагувати станцію</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/editStation" method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="editId" name="ID">
+                    <div class="mb-3">
+                        <label for="editNameStation" class="form-label">Назва станції</label>
+                        <input type="text" class="form-control" id="editNameStation" name="NameStation" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Скасувати</button>
+                    <button type="submit" class="btn btn-warning">Оновити</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Модальне вікно видалення -->
+<div class="modal fade" id="deleteStationModal" tabindex="-1" aria-labelledby="deleteStationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteStationModalLabel">Підтвердити видалення</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/deleteStation" method="get">
+                <div class="modal-body">
+                    <input type="hidden" id="deleteId" name="id">
+                    Ви впевнені, що хочете видалити цей запис?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Скасувати</button>
+                    <button type="submit" class="btn btn-danger">Видалити</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Заповнення даних у модальному вікні редагування
+    const editStationModal = document.getElementById('editStationModal');
+    editStationModal.addEventListener('show.bs.modal', event => {
+        const button = event.relatedTarget;
+        const id = button.getAttribute('data-id');
+        const nameStation = button.getAttribute('data-name');
+        document.getElementById('editId').value = id;
+        document.getElementById('editNameStation').value = nameStation;
+    });
+    // Заповнення ID у модальному вікні видалення
+    const deleteStationModal = document.getElementById('deleteStationModal');
+    deleteStationModal.addEventListener('show.bs.modal', event => {
+        const button = event.relatedTarget;
+        const id = button.getAttribute('data-id');
+        document.getElementById('deleteId').value = id;
+    });
+</script>
+</body>
+</html>

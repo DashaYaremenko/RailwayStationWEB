@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SeatsCars Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center">Управління місцями у вагонах</h1>
+
+    <!-- Кнопка для відкриття модального вікна додавання -->
+    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addSeatModal">Додати</button>
+    <!-- Таблиця з місцями -->
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Номер вагона</th>
+            <th>Номер місця</th>
+            <th>Статус місця</th>
+            <th>Дії</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="seat : ${seatsCars}">
+            <td th:text="${seat.id}"></td>
+            <td th:text="${seat.carsID.id}"></td>
+            <td th:text="${seat.seatNumber}"></td>
+            <td th:text="${seat.statusSeat}"></td>
+            <td>
+                <!-- Кнопка редагування -->
+                <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editSeatModal"
+                        th:attr="data-id=${seat.id}, data-car-id=${seat.carsID.id}, data-seat-number=${seat.seatNumber}, data-status=${seat.statusSeat}">
+                    Редагувати
+                </button>
+
+                <!-- Кнопка видалення -->
+                <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteSeatModal"
+                        th:attr="data-id=${seat.id}">
+                    Видалити
+                </button>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Модальне вікно додавання -->
+<div class="modal fade" id="addSeatModal" tabindex="-1" aria-labelledby="addSeatModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addSeatModalLabel">Додати місце</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/addSeatsCars" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="carId" class="form-label">Номер вагона</label>
+                        <input type="text" class="form-control" id="carId" name="CarsID" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="seatNumber" class="form-label">Номер місця</label>
+                        <input type="number" class="form-control" id="seatNumber" name="SeatNumber" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="statusSeat" class="form-label">Статус місця</label>
+                        <select class="form-select" id="statusSeat" name="StatusSeat" required>
+                            <option value="Доступне">Доступне</option>
+                            <option value="Заброньоване">Заброньоване</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Скасувати</button>
+                    <button type="submit" class="btn btn-primary">Додати</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Модальне вікно редагування -->
+<div class="modal fade" id="editSeatModal" tabindex="-1" aria-labelledby="editSeatModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editSeatModalLabel">Редагувати місце</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/editSeatsCars" method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="editId" name="ID">
+                    <div class="mb-3">
+                        <label for="editCarId" class="form-label">Номер вагона</label>
+                        <input type="text" class="form-control" id="editCarId" name="CarsID" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editSeatNumber" class="form-label">Номер місця</label>
+                        <input type="number" class="form-control" id="editSeatNumber" name="SeatNumber" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editStatusSeat" class="form-label">Статус місця</label>
+                        <select class="form-select" id="editStatusSeat" name="StatusSeat" required>
+                            <option value="Доступне">Доступне</option>
+                            <option value="Заброньоване">Заброньоване</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Скасувати</button>
+                    <button type="submit" class="btn btn-warning">Оновити</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Модальне вікно видалення -->
+<div class="modal fade" id="deleteSeatModal" tabindex="-1" aria-labelledby="deleteSeatModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteSeatModalLabel">Підтвердити видалення</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/deleteSeatsCars" method="get">
+                <div class="modal-body">
+                    <input type="hidden" id="deleteId" name="id">
+                    Ви впевнені, що хочете видалити цей запис?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Скасувати</button>
+                    <button type="submit" class="btn btn-danger">Видалити</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Заповнення даних у модальному вікні редагування
+    const editSeatModal = document.getElementById('editSeatModal');
+    editSeatModal.addEventListener('show.bs.modal', event => {
+        const button = event.relatedTarget;
+        const id = button.getAttribute('data-id');
+        const carId = button.getAttribute('data-car-id');
+        const seatNumber = button.getAttribute('data-seat-number');
+        const status = button.getAttribute('data-status');
+        // Заповнення значень у полях форми
+        document.getElementById('editId').value = id;
+        document.getElementById('editCarId').value = carId;
+        document.getElementById('editSeatNumber').value = seatNumber;
+        document.getElementById('editStatusSeat').value = status;
+    });
+
+    // Заповнення ID у модальному вікні видалення
+    const deleteSeatModal = document.getElementById('deleteSeatModal');
+    deleteSeatModal.addEventListener('show.bs.modal', event => {
+        const button = event.relatedTarget;
+        const id = button.getAttribute('data-id');
+        document.getElementById('deleteId').value = id;
+    });
+</script>
+</body>
+</html>
