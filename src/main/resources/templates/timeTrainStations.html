@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управління розкладом потягів</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center">Управління розкладом потягів</h1>
+
+    <!-- Кнопка для відкриття модального вікна додавання -->
+    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addTimeTrainStationModal">Додати запис</button>
+
+    <!-- Таблиця розкладу -->
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Дата відправлення</th>
+            <th>ID станції відправлення</th>
+            <th>Дата прибуття</th>
+            <th>ID станції прибуття</th>
+            <th>Дії</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="tts : ${timeTrainStations}">
+            <td th:text="${tts.id}"></td>
+            <td th:text="${tts.deparDate}"></td>
+            <td th:text="${tts.deparStationTime.id}"></td>
+            <td th:text="${tts.arrivDate}"></td>
+            <td th:text="${tts.arrivStationTime.id}"></td>
+            <td>
+                <!-- Кнопка редагування -->
+                <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editTimeTrainStationModal"
+                        th:attr="data-id=${tts.id}, data-departure-date=${tts.deparDate}, data-departure-station=${tts.deparStationTime.id}, data-arrival-date=${tts.arrivDate}, data-arrival-station=${tts.arrivStationTime.id}">
+                    Редагувати
+                </button>
+                <!-- Кнопка видалення -->
+                <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteTimeTrainStationModal"
+                        th:attr="data-id=${tts.id}">
+                    Видалити
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Модальне вікно додавання -->
+<div class="modal fade" id="addTimeTrainStationModal" tabindex="-1" aria-labelledby="addTimeTrainStationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addTimeTrainStationModalLabel">Додати запис</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/addTimeTrainStation" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="departureDate" class="form-label">Дата відправлення</label>
+                        <input type="date" class="form-control" id="departureDate" name="DeparDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="departureStation" class="form-label">ID станції відправлення</label>
+                        <input type="number" class="form-control" id="departureStation" name="DeparStationTime" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="arrivalDate" class="form-label">Дата прибуття</label>
+                        <input type="date" class="form-control" id="arrivalDate" name="ArrivDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="arrivalStation" class="form-label">ID станції прибуття</label>
+                        <input type="number" class="form-control" id="arrivalStation" name="ArrivStationTime" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Скасувати</button>
+                    <button type="submit" class="btn btn-primary">Додати</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Модальне вікно редагування -->
+<div class="modal fade" id="editTimeTrainStationModal" tabindex="-1" aria-labelledby="editTimeTrainStationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editTimeTrainStationModalLabel">Редагувати запис</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/editTimeTrainStation" method="post">
+                <div class="modal-body">
+                    <input type="hidden" id="editId" name="ID">
+                    <div class="mb-3">
+                        <label for="editDepartureDate" class="form-label">Дата відправлення</label>
+                        <input type="date" class="form-control" id="editDepartureDate" name="DeparDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDepartureStation" class="form-label">ID станції відправлення</label>
+                        <input type="number" class="form-control" id="editDepartureStation" name="DeparStationTime" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editArrivalDate" class="form-label">Дата прибуття</label>
+                        <input type="date" class="form-control" id="editArrivalDate" name="ArrivDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editArrivalStation" class="form-label">ID станції прибуття</label>
+                        <input type="number" class="form-control" id="editArrivalStation" name="ArrivStationTime" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Скасувати</button>
+                    <button type="submit" class="btn btn-warning">Оновити</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Модальне вікно видалення -->
+<div class="modal fade" id="deleteTimeTrainStationModal" tabindex="-1" aria-labelledby="deleteTimeTrainStationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteTimeTrainStationModalLabel">Підтвердити видалення</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/deleteTimeTrainStation" method="get">
+                <div class="modal-body">
+                    <input type="hidden" id="deleteId" name="ID">
+                    Ви впевнені, що хочете видалити цей запис?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Скасувати</button>
+                    <button type="submit" class="btn btn-danger">Видалити</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const editModal = document.getElementById('editTimeTrainStationModal');
+    editModal.addEventListener('show.bs.modal', event => {
+        const button = event.relatedTarget;
+        document.getElementById('editId').value = button.getAttribute('data-id');
+        document.getElementById('editDepartureDate').value = button.getAttribute('data-departure-date');
+        document.getElementById('editDepartureStation').value = button.getAttribute('data-departure-station');
+        document.getElementById('editArrivalDate').value = button.getAttribute('data-arrival-date');
+        document.getElementById('editArrivalStation').value = button.getAttribute('data-arrival-station');
+    });
+    const deleteModal = document.getElementById('deleteTimeTrainStationModal');
+    deleteModal.addEventListener('show.bs.modal', event => {
+        const button = event.relatedTarget;
+        document.getElementById('deleteId').value = button.getAttribute('data-id');
+    });
+</script>
+</body>
+</html>
