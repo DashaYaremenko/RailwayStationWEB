@@ -45,3 +45,4 @@ public class TimeTrainStation {
     public TrainsStations getArrivStationTime() {return arrivStationTime;}
     public void setArrivStationTime(TrainsStations arrivStationTime) {this.arrivStationTime = arrivStationTime;}
 }
+//jkk
