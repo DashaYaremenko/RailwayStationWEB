@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пошук потягів</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center">Пошук потягів</h1>
+
+    <!-- Форма для пошуку -->
+    <form action="/results" method="post" class="row g-3 mt-4">
+        <div class="col-md-4">
+            <label for="departureStation" class="form-label">Станція відправлення</label>
+            <input type="text" id="departureStation" name="departureStation" class="form-control" placeholder="Введіть станцію" required>
+        </div>
+        <div class="col-md-4">
+            <label for="arrivalStation" class="form-label">Станція прибуття</label>
+            <input type="text" id="arrivalStation" name="arrivalStation" class="form-control" placeholder="Введіть станцію" required>
+        </div>
+        <div class="col-md-4">
+            <label for="departureDate" class="form-label">Дата відправлення</label>
+            <input type="date" id="departureDate" name="departureDate" class="form-control" required>
+        </div>
+        <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary">Шукати</button>
+        </div>
+    </form>
+
+    <!-- Таблиця з результатами -->
+    <div th:if="${searchTrains != null}">
+        <h3>Результати пошуку</h3>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Номер потяга</th>
+                <th>Назва потяга</th>
+                <th>Станція відправлення</th>
+                <th>Станція прибуття</th>
+                <th>Дата</th>
+                <th>Час відправлення</th>
+                <th>Час прибуття</th>
+                <th>Тип вагону</th>
+                <th>Доступні місця</th>
+                <th>Придбати</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="train, iterStat : ${searchTrains}">
+                <td th:text="${iterStat.index + 1}"></td>
+                <td th:text="${train.trainId}"></td>
+                <td th:text="${train.trainName}"></td>
+                <td th:text="${train.departureStation}"></td>
+                <td th:text="${train.arrivalStation}"></td>
+                <td th:text="${train.departureDate}"></td>
+                <td th:text="${train.departureTime}"></td>
+                <td th:text="${train.arrivalTime}"></td>
+                <td th:text="${train.carType}"></td>
+                <td th:text="${train.availableSeats}"></td>
+            </tr>
+            <tr th:if="${searchTrains.isEmpty()}">
+                <td colspan="10" class="text-center">Результатів не знайдено.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+
+
