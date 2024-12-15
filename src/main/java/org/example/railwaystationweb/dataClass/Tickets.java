@@ -70,6 +70,7 @@ public class Tickets {
         this.drink = drink;
         this.snacks = snacks;
     }
+
     public int getTicketId() {return ticketId;}
     public void setTicketId(int ticketId) {this.ticketId = ticketId;}
     public Clients getClient() {return client;}

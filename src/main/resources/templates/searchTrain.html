@@ -60,6 +60,20 @@
                 <td th:text="${train.arrivalTime}"></td>
                 <td th:text="${train.carType}"></td>
                 <td th:text="${train.availableSeats}"></td>
+                <td>
+                    <form th:action="@{/tickets/buy}" method="get">
+                        <input type="hidden" name="trainNum" th:value="${train.trainId}" />
+                        <input type="hidden" name="station1" th:value="${train.departureStation}" />
+                        <input type="hidden" name="station2" th:value="${train.arrivalStation}" />
+                        <input type="hidden" name="departureDate" th:value="${train.departureDate}" />
+                        <input type="hidden" name="departureTime" th:value="${train.departureTime}" />
+                        <input type="hidden" name="arrivalDate" th:value="${train.arrivalDate}" />
+                        <input type="hidden" name="arrivalTime" th:value="${train.arrivalTime}" />
+                        <input type="hidden" name="carType" th:value="${train.carType}" />
+                        <button type="submit">Купити квиток</button>
+                    </form>
+                </td>
+
             </tr>
             <tr th:if="${searchTrains.isEmpty()}">
                 <td colspan="10" class="text-center">Результатів не знайдено.</td>

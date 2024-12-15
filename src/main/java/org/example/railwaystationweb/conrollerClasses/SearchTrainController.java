@@ -22,7 +22,7 @@ public class SearchTrainController {
     }
     @GetMapping("/searchTrain")
     public String showSearchForm() {
-        return "searchTrain"; // Назва HTML сторінки searchTrain.html
+        return "searchTrain";
     }
 
     @PostMapping("/results")
