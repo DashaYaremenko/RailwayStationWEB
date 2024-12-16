@@ -2,32 +2,57 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Адміністратор</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-<h1>Ласкаво просимо Адміністратор!</h1>
-<h2>Оберіть дію:</h2>
-<form action="/trains" method="get">
-    <button type="submit">Редактор Потяг</button>
-</form>
-<form action="/cars" method="get">
-    <button type="submit">Редактор Вагон</button>
-</form>
-<form action="/seatsCars" method="get">
-    <button type="submit">Редактор Місць у вагону</button>
-</form>
-<form action="/stations" method="get">
-    <button type="submit">Редактор Станцій</button>
-</form>
-<form action="/timeTrainStations", method="get">
-    <button type="submit">Редактор Часу між потягом та станцією</button>
-</form>
-<form action="/trainsCars", method="get">
-    <button type="submit">Редактор між потягом та вагоном</button>
-</form>
-<form action="/trainsStations", method="get">
-    <button type="submit">Редактор між потягом та станцією </button>
-</form>
+<body class="bg-light">
+<div class="container py-5">
+    <div class="text-center mb-4">
+        <h1 class="display-4">Ласкаво просимо, Адміністратор!</h1>
+        <p class="lead">Оберіть дію:</p>
+    </div>
 
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form action="/trains" method="get">
+                <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">Редактор Потяг</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <form action="/cars" method="get">
+                <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">Редактор Вагон</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <form action="/seatsCars" method="get">
+                <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">Редактор Місць у вагону</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <form action="/stations" method="get">
+                <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">Редактор Станцій</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <form action="/timeTrainStations" method="get">
+                <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">Редактор Часу між потягом та станцією</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <form action="/trainsCars" method="get">
+                <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">Редактор між потягом та вагоном</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <form action="/trainsStations" method="get">
+                <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">Редактор між потягом та станцією</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
