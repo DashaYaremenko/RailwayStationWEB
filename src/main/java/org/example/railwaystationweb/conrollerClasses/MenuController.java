@@ -15,5 +15,9 @@ public class MenuController {
     public String showAdminPage() {
         return "admin";  // Thymeleaf шукає шаблон в /src/main/resources/templates/admin.html
     }
+    @GetMapping("/client")
+    public String showClientPage() {
+        return "client";  // Thymeleaf шукає шаблон в /src/main/resources/templates/admin.html
+    }
 
 }

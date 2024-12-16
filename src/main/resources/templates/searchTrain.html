@@ -61,7 +61,7 @@
                 <td th:text="${train.carType}"></td>
                 <td th:text="${train.availableSeats}"></td>
                 <td>
-                    <form th:action="@{/tickets/buy}" method="get">
+                    <form th:action="@{/buyTicket}" method="get">
                         <input type="hidden" name="trainNum" th:value="${train.trainId}" />
                         <input type="hidden" name="station1" th:value="${train.departureStation}" />
                         <input type="hidden" name="station2" th:value="${train.arrivalStation}" />
